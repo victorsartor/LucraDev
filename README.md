@@ -29,7 +29,7 @@ Diferente de calculadoras genéricas, o LucraDev utiliza uma arquitetura baseada
 
 ## 💻 Como Explorar
 
-1. Acesse o (https://seu-link-vercel.app)
+1. Acesse o https://lucra-dev.vercel.app/
 
 ---
 
@@ -44,4 +44,4 @@ A arquitetura do sistema foi planejada para ir além do básico, aplicando conce
 
 ---
 Desenvolvido por **Victor Sartor**
-[LinkedIn](https://www.linkedin.com/in/victor-sartor-77a647222/) | [Portfólio](seu-link)
+[LinkedIn](https://www.linkedin.com/in/victor-sartor-77a647222/) | [Portfólio] https://github.com/victorsartor
