@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="LucraDev - Ferramenta de Engenharia Financeira para descobrir quanto cobrar por hora com base nos seus custos, metas e disponibilidade.">
+    <meta name="keywords" content="freelancer, valor hora, calculadora, precificação, freelance, lucradev">
+    <meta name="author" content="Projeto Portfolio">
+
+    <title>LucraDev | Engenharia Financeira para Freelancers</title>
+
+    <!-- Google Fonts: Inter para textos e Space Grotesk para números -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Ícones Lucide via CDN -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body>
+    <!-- ==========================================
+         FUNDO ANIMADO COM GRADIENTES
+    ========================================== -->
+    <div class="bg-gradient" aria-hidden="true">
+        <div class="bg-orb bg-orb--1"></div>
+        <div class="bg-orb bg-orb--2"></div>
+        <div class="bg-orb bg-orb--3"></div>
+    </div>
+
+    <!-- ==========================================
+         CONTAINER PRINCIPAL DO APP
+    ========================================== -->
+    <main class="app" id="app">
+
+        <!-- Cabeçalho do App -->
+        <header class="app__header">
+            <div class="app__logo">
+                <div class="app__logo-icon">
+                    <i data-lucide="calculator"></i>
+                </div>
+                <div>
+                    <h1 class="app__title">LucraDev</h1>
+                    <p class="app__subtitle">Engenharia Financeira</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- ==========================================
+             BARRA DE PROGRESSO DO WIZARD
+        ========================================== -->
+        <nav class="progress" aria-label="Progresso do cálculo">
+            <div class="progress__bar">
+                <div class="progress__fill" id="progressFill"></div>
+            </div>
+            <div class="progress__steps">
+                <button class="progress__step progress__step--active" data-step="1" id="progressStep1"
+                    aria-label="Etapa 1: Custos Fixos">
+                    <span class="progress__step-number">1</span>
+                    <span class="progress__step-label">Custos</span>
+                </button>
+                <button class="progress__step" data-step="2" id="progressStep2" aria-label="Etapa 2: Metas Financeiras">
+                    <span class="progress__step-number">2</span>
+                    <span class="progress__step-label">Metas</span>
+                </button>
+                <button class="progress__step" data-step="3" id="progressStep3" aria-label="Etapa 3: Impostos">
+                    <span class="progress__step-number">3</span>
+                    <span class="progress__step-label">Impostos</span>
+                </button>
+                <button class="progress__step" data-step="4" id="progressStep4" aria-label="Etapa 4: Disponibilidade">
+                    <span class="progress__step-number">4</span>
+                    <span class="progress__step-label">Tempo</span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- ==========================================
+             CONTAINER DO WIZARD (TODAS AS ETAPAS)
+        ========================================== -->
+        <div class="wizard" id="wizard">
+
+            <!-- ======== ETAPA 1: CUSTOS FIXOS ======== -->
+            <section class="step step--active" id="step1" aria-labelledby="step1Title">
+                <div class="step__header">
+                    <div class="step__icon step__icon--custos">
+                        <i data-lucide="wallet"></i>
+                    </div>
+                    <div>
+                        <h2 class="step__title" id="step1Title">Custos Fixos Mensais</h2>
+                        <p class="step__description">Quanto você gasta por mês para manter sua operação?</p>
+                    </div>
+                </div>
+
+                <div class="step__content">
+                    <!-- Campo: Aluguel / Moradia -->
+                    <div class="field">
+                        <label class="field__label" for="aluguel">
+                            <i data-lucide="home" class="field__icon"></i>
+                            Aluguel / Moradia
+                        </label>
+                        <div class="field__input-wrapper">
+                            <span class="field__prefix">R$</span>
+                            <input type="number" class="field__input" id="aluguel" placeholder="1.500,00" min="0"
+                                step="50" value="0" data-category="custos">
+                        </div>
+                    </div>
+
+                    <!-- Campo: Internet + Telefone -->
+                    <div class="field">
+                        <label class="field__label" for="internet">
+                            <i data-lucide="wifi" class="field__icon"></i>
+                            Internet + Telefone
+                        </label>
+                        <div class="field__input-wrapper">
+                            <span class="field__prefix">R$</span>
+                            <input type="number" class="field__input" id="internet" placeholder="200,00" min="0"
+                                step="10" value="0" data-category="custos">
+                        </div>
+                    </div>
+
+                    <!-- Campo: Software e Ferramentas -->
+                    <div class="field">
+                        <label class="field__label" for="software">
+                            <i data-lucide="monitor" class="field__icon"></i>
+                            Software / Ferramentas
+                        </label>
+                        <div class="field__input-wrapper">
+                            <span class="field__prefix">R$</span>
+                            <input type="number" class="field__input" id="software" placeholder="150,00" min="0"
+                                step="10" value="0" data-category="custos">
+                        </div>
+                    </div>
+
+                    <!-- Campo: Outros Custos -->
+                    <div class="field">
+                        <label class="field__label" for="outrosCustos">
+                            <i data-lucide="plus-circle" class="field__icon"></i>
+                            Outros Custos
+                        </label>
+                        <div class="field__input-wrapper">
+                            <span class="field__prefix">R$</span>
+                            <input type="number" class="field__input" id="outrosCustos" placeholder="300,00" min="0"
+                                step="10" value="0" data-category="custos">
+                        </div>
+                    </div>
+
+                    <!-- Resumo dos custos fixos -->
+                    <div class="step__summary" id="custosTotal">
+                        <span class="step__summary-label">Total de Custos Fixos</span>
+                        <span class="step__summary-value" id="custosTotalValue">R$ 0,00</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ======== ETAPA 2: METAS FINANCEIRAS ======== -->
+            <section class="step" id="step2" aria-labelledby="step2Title">
+                <div class="step__header">
+                    <div class="step__icon step__icon--metas">
+                        <i data-lucide="target"></i>
+                    </div>
+                    <div>
+                        <h2 class="step__title" id="step2Title">Metas Financeiras</h2>
+                        <p class="step__description">Quanto você deseja ganhar e qual margem de lucro?</p>
+                    </div>
+                </div>
+
+                <div class="step__content">
+                    <!-- Campo: Salário Desejado -->
+                    <div class="field">
+                        <label class="field__label" for="salario">
+                            <i data-lucide="banknote" class="field__icon"></i>
+                            Salário Líquido Desejado
+                        </label>
+                        <div class="field__input-wrapper">
+                            <span class="field__prefix">R$</span>
+                            <input type="number" class="field__input" id="salario" placeholder="8.000,00" min="0"
+                                step="500" value="0" data-category="metas">
+                        </div>
+                        <span class="field__hint">Quanto você quer receber "limpo" por mês</span>
+                    </div>
+
+                    <!-- Slider: Margem de Lucro -->
+                    <div class="field">
+                        <label class="field__label" for="margem">
+                            <i data-lucide="trending-up" class="field__icon"></i>
+                            Margem de Lucro
+                            <span class="field__badge" id="margemValue">20%</span>
+                        </label>
+                        <input type="range" class="field__slider" id="margem" min="0" max="100" value="20" step="5"
+                            data-category="metas">
+                        <div class="field__slider-labels">
+                            <span>0%</span>
+                            <span>50%</span>
+                            <span>100%</span>
+                        </div>
+                        <span class="field__hint">Margem adicional sobre seus custos para crescimento e
+                            investimento</span>
+                    </div>
+
+                    <!-- Slider: Reserva de Emergência -->
+                    <div class="field">
+                        <label class="field__label" for="reserva">
+                            <i data-lucide="shield" class="field__icon"></i>
+                            Reserva de Emergência
+                            <span class="field__badge" id="reservaValue">10%</span>
+                        </label>
+                        <input type="range" class="field__slider" id="reserva" min="0" max="50" value="10" step="5"
+                            data-category="metas">
+                        <div class="field__slider-labels">
+                            <span>0%</span>
+                            <span>25%</span>
+                            <span>50%</span>
+                        </div>
+                        <span class="field__hint">Percentual guardado para meses com menos projetos</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ======== ETAPA 3: IMPOSTOS E TAXAS ======== -->
+            <section class="step" id="step3" aria-labelledby="step3Title">
+                <div class="step__header">
+                    <div class="step__icon step__icon--impostos">
+                        <i data-lucide="receipt"></i>
+                    </div>
+                    <div>
+                        <h2 class="step__title" id="step3Title">Impostos e Taxas</h2>
+                        <p class="step__description">Selecione seu regime tributário e taxas de plataforma</p>
+                    </div>
+                </div>
+
+                <div class="step__content">
+                    <!-- Seletor de Regime Tributário -->
+                    <div class="field">
+                        <label class="field__label">
+                            <i data-lucide="building" class="field__icon"></i>
+                            Regime Tributário
+                        </label>
+                        <div class="regime-cards" id="regimeCards">
+                            <button class="regime-card regime-card--active" data-regime="mei" data-aliquota="5"
+                                id="regimeMei">
+                                <span class="regime-card__title">MEI</span>
+                                <span class="regime-card__tax">~5%</span>
+                                <span class="regime-card__desc">Até R$ 81mil/ano</span>
+                            </button>
+                            <button class="regime-card" data-regime="simples" data-aliquota="11" id="regimeSimples">
+                                <span class="regime-card__title">Simples</span>
+                                <span class="regime-card__tax">~11%</span>
+                                <span class="regime-card__desc">Até R$ 4.8mi/ano</span>
+                            </button>
+                            <button class="regime-card" data-regime="presumido" data-aliquota="16" id="regimePresumido">
+                                <span class="regime-card__title">Lucro Presumido</span>
+                                <span class="regime-card__tax">~16%</span>
+                                <span class="regime-card__desc">Sem limite</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Slider: Alíquota personalizada -->
+                    <div class="field">
+                        <label class="field__label" for="aliquota">
+                            <i data-lucide="percent" class="field__icon"></i>
+                            Alíquota de Impostos
+                            <span class="field__badge" id="aliquotaValue">5%</span>
+                        </label>
+                        <input type="range" class="field__slider field__slider--warning" id="aliquota" min="0" max="40"
+                            value="5" step="1" data-category="impostos">
+                        <div class="field__slider-labels">
+                            <span>0%</span>
+                            <span>20%</span>
+                            <span>40%</span>
+                        </div>
+                        <span class="field__hint">Ajuste manualmente se souber sua alíquota exata</span>
+                    </div>
+
+                    <!-- Slider: Taxa de Plataforma -->
+                    <div class="field">
+                        <label class="field__label" for="taxaPlataforma">
+                            <i data-lucide="globe" class="field__icon"></i>
+                            Taxa de Plataforma (Upwork, 99Freelas, etc.)
+                            <span class="field__badge" id="taxaPlataformaValue">0%</span>
+                        </label>
+                        <input type="range" class="field__slider" id="taxaPlataforma" min="0" max="30" value="0"
+                            step="1" data-category="impostos">
+                        <div class="field__slider-labels">
+                            <span>0%</span>
+                            <span>15%</span>
+                            <span>30%</span>
+                        </div>
+                        <span class="field__hint">Percentual cobrado pela plataforma de freelance</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ======== ETAPA 4: DISPONIBILIDADE ======== -->
+            <section class="step" id="step4" aria-labelledby="step4Title">
+                <div class="step__header">
+                    <div class="step__icon step__icon--tempo">
+                        <i data-lucide="clock"></i>
+                    </div>
+                    <div>
+                        <h2 class="step__title" id="step4Title">Disponibilidade</h2>
+                        <p class="step__description">Quantas horas você dedica ao trabalho freelancer?</p>
+                    </div>
+                </div>
+
+                <div class="step__content">
+                    <!-- Slider: Horas por Dia -->
+                    <div class="field">
+                        <label class="field__label" for="horasDia">
+                            <i data-lucide="sun" class="field__icon"></i>
+                            Horas por Dia
+                            <span class="field__badge field__badge--accent" id="horasDiaValue">8h</span>
+                        </label>
+                        <input type="range" class="field__slider field__slider--accent" id="horasDia" min="2" max="14"
+                            value="8" step="1" data-category="tempo">
+                        <div class="field__slider-labels">
+                            <span>2h</span>
+                            <span>8h</span>
+                            <span>14h</span>
+                        </div>
+                    </div>
+
+                    <!-- Slider: Dias por Semana -->
+                    <div class="field">
+                        <label class="field__label" for="diasSemana">
+                            <i data-lucide="calendar" class="field__icon"></i>
+                            Dias por Semana
+                            <span class="field__badge field__badge--accent" id="diasSemanaValue">5 dias</span>
+                        </label>
+                        <input type="range" class="field__slider field__slider--accent" id="diasSemana" min="1" max="7"
+                            value="5" step="1" data-category="tempo">
+                        <div class="field__slider-labels">
+                            <span>1</span>
+                            <span>4</span>
+                            <span>7</span>
+                        </div>
+                    </div>
+
+                    <!-- Slider: Semanas por Mês -->
+                    <div class="field">
+                        <label class="field__label" for="semanasMes">
+                            <i data-lucide="calendar-range" class="field__icon"></i>
+                            Semanas por Mês
+                            <span class="field__badge field__badge--accent" id="semanasMesValue">4 sem.</span>
+                        </label>
+                        <input type="range" class="field__slider field__slider--accent" id="semanasMes" min="2" max="5"
+                            value="4" step="1" data-category="tempo">
+                        <div class="field__slider-labels">
+                            <span>2</span>
+                            <span>3.5</span>
+                            <span>5</span>
+                        </div>
+                    </div>
+
+                    <!-- Resumo de Horas -->
+                    <div class="hours-summary" id="hoursSummary">
+                        <div class="hours-summary__item">
+                            <span class="hours-summary__label">Horas Totais</span>
+                            <span class="hours-summary__value" id="horasTotais">160h</span>
+                        </div>
+                        <div class="hours-summary__divider">
+                            <i data-lucide="arrow-right"></i>
+                        </div>
+                        <div class="hours-summary__item">
+                            <span class="hours-summary__label">-20% não faturável</span>
+                            <span class="hours-summary__value hours-summary__value--muted"
+                                id="horasNaoFaturaveis">-32h</span>
+                        </div>
+                        <div class="hours-summary__divider">
+                            <i data-lucide="equal"></i>
+                        </div>
+                        <div class="hours-summary__item hours-summary__item--highlight">
+                            <span class="hours-summary__label">Horas Faturáveis</span>
+                            <span class="hours-summary__value hours-summary__value--accent"
+                                id="horasFaturaveis">128h</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ==========================================
+             BOTÕES DE NAVEGAÇÃO DO WIZARD
+        ========================================== -->
+        <div class="wizard__nav" id="wizardNav">
+            <button class="btn btn--ghost" id="btnPrev" style="visibility: hidden;">
+                <i data-lucide="arrow-left"></i>
+                Voltar
+            </button>
+            <button class="btn btn--primary" id="btnNext">
+                Próximo
+                <i data-lucide="arrow-right"></i>
+            </button>
+        </div>
+
+        <!-- ==========================================
+             TELA DE RESULTADO
+        ========================================== -->
+        <section class="result" id="resultSection" style="display: none;" aria-labelledby="resultTitle">
+
+            <!-- Valor Principal -->
+            <div class="result__hero">
+                <span class="result__label">Seu Valor/Hora Ideal</span>
+                <div class="result__value-wrapper">
+                    <span class="result__currency">R$</span>
+                    <span class="result__value" id="resultValue">0</span>
+                    <span class="result__cents" id="resultCents">,00</span>
+                </div>
+                <span class="result__per">/hora</span>
+            </div>
+
+            <!-- Cards de Projeção -->
+            <div class="result__projections">
+                <div class="result__card">
+                    <i data-lucide="clock" class="result__card-icon"></i>
+                    <span class="result__card-label">Por Hora</span>
+                    <span class="result__card-value" id="projHora">R$ 0</span>
+                </div>
+                <div class="result__card">
+                    <i data-lucide="sun" class="result__card-icon"></i>
+                    <span class="result__card-label">Por Dia</span>
+                    <span class="result__card-value" id="projDia">R$ 0</span>
+                </div>
+                <div class="result__card">
+                    <i data-lucide="calendar" class="result__card-icon"></i>
+                    <span class="result__card-label">Por Mês</span>
+                    <span class="result__card-value" id="projMes">R$ 0</span>
+                </div>
+            </div>
+
+            <!-- Gráfico de Composição (Donut) -->
+            <div class="result__breakdown">
+                <h3 class="result__breakdown-title">Composição do Valor</h3>
+                <div class="result__chart-container">
+                    <div class="donut-chart" id="donutChart">
+                        <div class="donut-chart__center">
+                            <span class="donut-chart__total-label">Total/mês</span>
+                            <span class="donut-chart__total-value" id="donutTotal">R$ 0</span>
+                        </div>
+                    </div>
+                    <div class="donut-chart__legend" id="donutLegend">
+                        <!-- Legendas geradas via JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Insight / Dica -->
+            <div class="result__insight" id="resultInsight">
+                <i data-lucide="lightbulb" class="result__insight-icon"></i>
+                <p class="result__insight-text" id="resultInsightText">
+                    Dica carregando...
+                </p>
+            </div>
+
+            <!-- Botões de Ação -->
+            <div class="result__actions">
+                <button class="btn btn--ghost" id="btnRefazer">
+                    <i data-lucide="refresh-cw"></i>
+                    Refazer Cálculo
+                </button>
+                <button class="btn btn--primary" id="btnExportar">
+                    <i data-lucide="download"></i>
+                    Copiar Resultado
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Rodapé -->
+    <footer class="footer">
+        <p>Feito por Victor Sartor - https://github.com/victorsartor </p>
+    </footer>
+
+    <script src="assets/js/script.js"></script>
+    <script src="assets/js/ui.js"></script>
+</body>
+
+</html>
